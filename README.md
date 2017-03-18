@@ -2,6 +2,30 @@
 
 * ODM creates orthophotos mainly through projecting original images onto the mesh generated. This approach can be significantly improved through homography prinicples used for orthophoto generation. OpenCV functions [`getPerspectiveTransform`](http://docs.opencv.org/2.4/modules/imgproc/doc/geometric_transformations.html#getperspectivetransform) and [`warpPerspective`](http://docs.opencv.org/2.4/modules/imgproc/doc/geometric_transformations.html#warpperspective) can be used in conjunction with [`ODM orthophoto module`](https://github.com/OpenDroneMap/OpenDroneMap/blob/master/modules/odm_orthophoto/src/OdmOrthoPhoto.cpp) to improve quality of orthophotos. As explained in paper authored at ETH Zurich, [True-orthophoto generation from UAV images: Implementation of a combined photogrammetric and computer vision approach](http://search.proquest.com/openview/b414ec24f42a03968ab8826dd3a0425a/1?pq-origsite=gscholar&cbl=2037681), combining both cv and photogrammetric approaches will result in better orthophotos.
 
+# Time estimate 
+Automatically setup orthophoto resolution - 1 day
+
+Add masking techniques to fix moving objects - 4 days
+
+Improve point cloud to fix protruding objects - 7-10 days
+
+Fix oblique images - 7 days
+
+Add smoothing and sharpening methods for vegetation issues - 3 days
+
+Add blob detection functions to remove ghost effects - 3 days
+
+Tune feature matching for distorted roads - 2 days
+
+Improve texturing and add hole filling algorithms to fix gaps in orthophotos - 4 days
+
+Add denoising functions - 3 days
+
+Buffer time - 7 days
+
+
+Adding machine learning algorithms as new features - It's better to work on this after we have reasonable quality orthophotos.
+
 ## Orthophoto resolution
 Orthophoto resolution is set to `20.0 pixels/meter` in ODM by default, but Ground Sample Distance (GSD) is closely related to camera specifications (focal length, sensor width and resolution) and altitude of the flight. These details can be automatically extracted from EXIF data of the images, and GSD can be calculated using formula (according to [reference book](https://books.google.com/books?id=f3zUKZZ_WjMC&pg=PA30&dq=%22ground+sample+distance%22&lr=&as_drrb_is=q&as_minm_is=0&as_miny_is=&as_maxm_is=0&as_maxy_is=&as_brr=0&ei=57prSuTtN47ilASH0dlQ#v=onepage&q=%22ground%20sample%20distance%22&f=false) and [Pix4D website](https://support.pix4d.com/hc/en-us/articles/202559809#gsc.tab=0)):
 

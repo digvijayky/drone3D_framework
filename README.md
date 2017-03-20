@@ -2,7 +2,7 @@
 
 * ODM creates orthophotos mainly through projecting original images onto the mesh generated. This approach can be significantly improved through homography prinicples used for orthophoto generation. OpenCV functions [`getPerspectiveTransform`](http://docs.opencv.org/2.4/modules/imgproc/doc/geometric_transformations.html#getperspectivetransform) and [`warpPerspective`](http://docs.opencv.org/2.4/modules/imgproc/doc/geometric_transformations.html#warpperspective) can be used in conjunction with [`ODM orthophoto module`](https://github.com/OpenDroneMap/OpenDroneMap/blob/master/modules/odm_orthophoto/src/OdmOrthoPhoto.cpp) to improve quality of orthophotos. As explained in paper authored at ETH Zurich, [True-orthophoto generation from UAV images: Implementation of a combined photogrammetric and computer vision approach](http://search.proquest.com/openview/b414ec24f42a03968ab8826dd3a0425a/1?pq-origsite=gscholar&cbl=2037681), combining both cv and photogrammetric approaches will result in better orthophotos.
 
-# Time estimate 
+# Time estimate (assuming 1 day = 8 story points)
 Automatically setup orthophoto resolution - 1 day
 
 Add masking techniques to fix moving objects - 4 days

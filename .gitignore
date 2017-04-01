@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *~
 bin/
 include/
@@ -19,3 +20,5 @@ ceres-solver.tar.gz
 *.pyc
 pcl.tar.gz
 opencv.zip
+=======
+>>>>>>> 2fe9a1becb95d0b241f0b60d351483e7a5589f69

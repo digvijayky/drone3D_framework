@@ -1,30 +1,5 @@
-# Approach to improve ODM
+ODM creates orthophotos mainly through projecting original images onto a mesh. This approach can be significantly improved through homography prinicples used for orthophoto generation. OpenCV functions [`getPerspectiveTransform`](http://docs.opencv.org/2.4/modules/imgproc/doc/geometric_transformations.html#getperspectivetransform) and [`warpPerspective`](http://docs.opencv.org/2.4/modules/imgproc/doc/geometric_transformations.html#warpperspective) can be used in conjunction with [`ODM orthophoto module`](https://github.com/OpenDroneMap/OpenDroneMap/blob/master/modules/odm_orthophoto/src/OdmOrthoPhoto.cpp) to improve quality of orthophotos. As explained in paper authored at ETH Zurich, [True-orthophoto generation from UAV images: Implementation of a combined photogrammetric and computer vision approach](http://search.proquest.com/openview/b414ec24f42a03968ab8826dd3a0425a/1?pq-origsite=gscholar&cbl=2037681), combining both cv and photogrammetric approaches will result in better orthophotos.
 
-* ODM creates orthophotos mainly through projecting original images onto the mesh generated. This approach can be significantly improved through homography prinicples used for orthophoto generation. OpenCV functions [`getPerspectiveTransform`](http://docs.opencv.org/2.4/modules/imgproc/doc/geometric_transformations.html#getperspectivetransform) and [`warpPerspective`](http://docs.opencv.org/2.4/modules/imgproc/doc/geometric_transformations.html#warpperspective) can be used in conjunction with [`ODM orthophoto module`](https://github.com/OpenDroneMap/OpenDroneMap/blob/master/modules/odm_orthophoto/src/OdmOrthoPhoto.cpp) to improve quality of orthophotos. As explained in paper authored at ETH Zurich, [True-orthophoto generation from UAV images: Implementation of a combined photogrammetric and computer vision approach](http://search.proquest.com/openview/b414ec24f42a03968ab8826dd3a0425a/1?pq-origsite=gscholar&cbl=2037681), combining both cv and photogrammetric approaches will result in better orthophotos.
-
-# Time estimate (assuming 1 day = 8 story points)
-Automatically setup orthophoto resolution - 1 day
-
-Add masking techniques to fix moving objects - 4 days
-
-Improve point cloud to fix protruding objects - 7-10 days
-
-Fix oblique images - 7 days
-
-Add smoothing and sharpening methods for vegetation issues - 3 days
-
-Add blob detection functions to remove ghost effects - 3 days
-
-Tune feature matching for distorted roads - 2 days
-
-Improve texturing and add hole filling algorithms to fix gaps in orthophotos - 4 days
-
-Add denoising functions - 3 days
-
-Buffer time - 7 days
-
-
-Adding machine learning algorithms as new features - It's better to work on this after we have reasonable quality orthophotos.
 
 ## Orthophoto resolution
 Orthophoto resolution is set to `20.0 pixels/meter` in ODM by default, but Ground Sample Distance (GSD) is closely related to camera specifications (focal length, sensor width and resolution) and altitude of the flight. These details can be automatically extracted from EXIF data of the images, and GSD can be calculated using formula (according to [reference book](https://books.google.com/books?id=f3zUKZZ_WjMC&pg=PA30&dq=%22ground+sample+distance%22&lr=&as_drrb_is=q&as_minm_is=0&as_miny_is=&as_maxm_is=0&as_maxy_is=&as_brr=0&ei=57prSuTtN47ilASH0dlQ#v=onepage&q=%22ground%20sample%20distance%22&f=false) and [Pix4D website](https://support.pix4d.com/hc/en-us/articles/202559809#gsc.tab=0)):
@@ -46,7 +21,7 @@ In addition to parameters mentioned above, for our dataset, we can tweak the fol
 The orthophoto created can be found in the link https://www.dropbox.com/s/f9vfnbopmra2xie/odm_orthophoto.tif?dl=0
 
 
-## Issues in the images
+## Processing improvements
 
 ### Moving objects
 In our orthophoto, moving cars are distorted. [Masking techniques](http://info.photomodeler.com/blog/tip-75-masking-to-improve-orthophoto-and-3d-textures/) are proven to reduce distortion due to moving objects. Opencv provides a good set of [mask operations] (http://docs.opencv.org/2.4/doc/tutorials/core/mat-mask-operations/mat-mask-operations.html), we can implement them to improve distortion due to moving objects. 
@@ -311,9 +286,6 @@ void holefill(char* input, char* output, int threshold)
 * Orthophotos can be distorted due to noise present in the original images. A good amount of preprocessing can result in clear projection of original images, thereby improving quality of orthophoto. Opencv does provide various [denoising functions](http://docs.opencv.org/3.0-beta/modules/photo/doc/denoising.html) to preprocess the images.
 
 ## Machine learning!
-After improving the point clouds and orthophotos, we can detect, classify and annotate various objects in the point clouds.  In my ML experience, these algorithms are similar to the ones used with images, so they can also be directly applied to orthophotos.
+We can detect, classify and annotate various objects in the point clouds.
 
-PS: 
-One of my [previous work] (https://github.com/digvijayky/Tensorflow-real-time-video-analysis) (to be published) is to annotate images, one of the simple use cases I can think of is where we process an orthophoto for construction site, and generate a sentence like `There are 10 people working near 3 large buildings with 2 cranes nearby. There are 20 bags of cement on the ground and a truck loaded with sand.` 
-
-Thanks!
+Example our visual understanding pipeline can generate a sentence from an orthophoto like `There are 10 people working near 3 large buildings with 2 cranes nearby. There are 20 bags of cement on the ground and a truck loaded with sand.` 
